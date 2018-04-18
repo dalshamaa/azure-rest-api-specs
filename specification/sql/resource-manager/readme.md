@@ -132,7 +132,6 @@ input-file:
 - Microsoft.Sql/preview/2017-10-01-preview/capabilities.json
 - Microsoft.Sql/preview/2017-10-01-preview/databases.json
 - Microsoft.Sql/preview/2017-10-01-preview/elasticPools.json
-- Microsoft.Sql/preview/2017-10-01-preview/shortTermRetentionPolicies.json 
 
 # Needed when there is more than one input file
 override-info:
