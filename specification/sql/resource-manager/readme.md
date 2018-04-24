@@ -24,14 +24,14 @@ These are the global settings for the Sql API.
 title: SqlManagementClient
 description: The Azure SQL Database management API provides a RESTful set of web services that interact with Azure SQL Database services to manage your databases. The API enables you to create, retrieve, update, and delete databases.
 openapi-type: arm
-tag: package-composite-v3
+tag: package-composite-v2
 ```
 
 ## Composite packages
 
 The following packages may be composed from multiple api-versions.
 
-### Tag: package-composite-v2
+### Tag: package-composite-v3
 
 These settings apply only when `--tag=package-composite-v3` is specified on the command line.
 
