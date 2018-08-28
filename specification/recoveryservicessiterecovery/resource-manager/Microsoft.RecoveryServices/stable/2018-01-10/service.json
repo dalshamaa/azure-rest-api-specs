@@ -1643,6 +1643,13 @@
             "description": "Protection container name.",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "OData filter options.",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1656,6 +1663,7 @@
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
+        "x-ms-odata": "#/definitions/ProtectableItemQueryParameter",
         "x-ms-examples": {
           "Gets the list of protectable items.": {
             "$ref": "./examples/ReplicationProtectableItems_ListByReplicationProtectionContainers.json"
@@ -6099,7 +6107,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "AgentAutoUpdateStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "automationAccountArmId": {
@@ -6159,6 +6167,10 @@
         "recoveryBootDiagStorageAccountId": {
           "description": "The boot diagnostic storage account.",
           "type": "string"
+        },
+        "diskEncryptionInfo": {
+          "$ref": "#/definitions/DiskEncryptionInfo",
+          "description": "The recovery disk encryption information."
         }
       },
       "x-ms-discriminator-value": "A2A"
@@ -6255,7 +6267,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "SetMultiVmSyncStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -6356,6 +6368,30 @@
           "format": "double",
           "description": "The data pending at source virtual machine in MB.",
           "type": "number"
+        },
+        "isDiskEncrypted": {
+          "description": "A value indicating whether vm has encrypted os disk or not.",
+          "type": "boolean"
+        },
+        "secretIdentifier": {
+          "description": "The secret URL / identifier (BEK).",
+          "type": "string"
+        },
+        "dekKeyVaultArmId": {
+          "description": "The KeyVault resource id for secret (BEK).",
+          "type": "string"
+        },
+        "isDiskKeyEncrypted": {
+          "description": "A value indicating whether disk key got encrypted or not.",
+          "type": "boolean"
+        },
+        "keyIdentifier": {
+          "description": "The key URL / identifier (KEK).",
+          "type": "string"
+        },
+        "kekKeyVaultArmId": {
+          "description": "The KeyVault resource id for key (KEK).",
+          "type": "string"
         }
       }
     },
@@ -6426,6 +6462,30 @@
           "format": "double",
           "description": "The data pending at source virtual machine in MB.",
           "type": "number"
+        },
+        "isDiskEncrypted": {
+          "description": "A value indicating whether vm has encrypted os disk or not.",
+          "type": "boolean"
+        },
+        "secretIdentifier": {
+          "description": "The secret URL / identifier (BEK).",
+          "type": "string"
+        },
+        "dekKeyVaultArmId": {
+          "description": "The KeyVault resource id for secret (BEK).",
+          "type": "string"
+        },
+        "isDiskKeyEncrypted": {
+          "description": "A value indicating whether disk key got encrypted or not.",
+          "type": "boolean"
+        },
+        "keyIdentifier": {
+          "description": "The key URL / identifier (KEK).",
+          "type": "string"
+        },
+        "kekKeyVaultArmId": {
+          "description": "The KeyVault resource id for key (KEK).",
+          "type": "string"
         }
       }
     },
@@ -6447,7 +6507,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "AgentAutoUpdateStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "automationAccountArmId": {
@@ -6483,7 +6543,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "RecoveryPointSyncType",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -6519,7 +6579,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "MultiVmGroupCreateOption",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "managementId": {
@@ -6731,6 +6791,10 @@
         "recoveryBootDiagStorageAccountId": {
           "description": "The boot diagnostic storage account.",
           "type": "string"
+        },
+        "diskEncryptionInfo": {
+          "$ref": "#/definitions/DiskEncryptionInfo",
+          "description": "The recovery disk encryption information."
         }
       },
       "x-ms-discriminator-value": "A2A"
@@ -6753,7 +6817,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "AgentAutoUpdateStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "automationAccountArmId": {
@@ -6790,6 +6854,10 @@
         "recoveryBootDiagStorageAccountId": {
           "description": "The boot diagnostic storage account.",
           "type": "string"
+        },
+        "diskEncryptionInfo": {
+          "$ref": "#/definitions/DiskEncryptionInfo",
+          "description": "The recovery os disk encryption information."
         }
       },
       "x-ms-discriminator-value": "A2A"
@@ -7468,7 +7536,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "FailoverDeploymentModel",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "groups": {
@@ -7548,7 +7616,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "DisableProtectionReason",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "replicationProviderInput": {
@@ -7615,6 +7683,34 @@
         },
         "vhdName": {
           "description": "The VHD name.",
+          "type": "string"
+        }
+      }
+    },
+    "DiskEncryptionInfo": {
+      "description": "Recovery disk encryption info (BEK and KEK).",
+      "type": "object",
+      "properties": {
+        "diskEncryptionKeyInfo": {
+          "$ref": "#/definitions/DiskEncryptionKeyInfo",
+          "description": "The recovery KeyVault reference for secret."
+        },
+        "keyEncryptionKeyInfo": {
+          "$ref": "#/definitions/KeyEncryptionKeyInfo",
+          "description": "The recovery KeyVault reference for key."
+        }
+      }
+    },
+    "DiskEncryptionKeyInfo": {
+      "description": "Disk Encryption Key Information (BitLocker Encryption Key (BEK) on Windows).",
+      "type": "object",
+      "properties": {
+        "secretIdentifier": {
+          "description": "The secret url / identifier.",
+          "type": "string"
+        },
+        "keyVaultResourceArmId": {
+          "description": "The KeyVault resource ARM id for secret.",
           "type": "string"
         }
       }
@@ -8241,7 +8337,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "HealthErrorCategory",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "severity": {
@@ -8255,7 +8351,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "Severity",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "summaryMessage": {
@@ -9270,7 +9366,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PresenceStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "hasFibreChannelAdapter": {
@@ -9283,7 +9379,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PresenceStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "hasSharedVhd": {
@@ -9296,7 +9392,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PresenceStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -9314,7 +9410,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "IdentityProviderType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "tenantId": {
@@ -9456,7 +9552,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "AgentVersionStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       }
@@ -9692,7 +9788,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "SetMultiVmSyncStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -10280,7 +10376,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "RecoveryPointType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "recoveryPointId": {
@@ -10357,7 +10453,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "SetMultiVmSyncStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -10969,17 +11065,11 @@
         },
         "affectedObjectTypes": {
           "description": "The type of objects.",
-          "type": "array",
-          "items": {
             "type": "string"
-          }
         },
         "jobStatus": {
           "description": "The states of the job to be filtered can be in.",
-          "type": "array",
-          "items": {
             "type": "string"
-          }
         }
       }
     },
@@ -11026,6 +11116,20 @@
         }
       },
       "x-ms-discriminator-value": "JobTaskDetails"
+    },
+    "KeyEncryptionKeyInfo": {
+      "description": "Key Encryption Key (KEK) information.",
+      "type": "object",
+      "properties": {
+        "keyIdentifier": {
+          "description": "The key url / identifier.",
+          "type": "string"
+        },
+        "keyVaultResourceArmId": {
+          "description": "The KeyVault resource ARM id for key.",
+          "type": "string"
+        }
+      }
     },
     "LogicalNetwork": {
       "description": "Logical network data model.",
@@ -11754,6 +11858,16 @@
         }
       }
     },
+    "ProtectableItemQueryParameter": {
+      "description": "Query parameter to enumerate Protectable items.",
+      "type": "object",
+      "properties": {
+        "state": {
+          "description": "State of the Protectable item query filter.",
+          "type": "string"
+        }
+      }
+    },
     "ProtectedItemsQueryParameter": {
       "description": "Query parameter to enumerate protected items.",
       "type": "object",
@@ -11783,7 +11897,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "MultiVmGroupCreateOption",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       }
@@ -12046,7 +12160,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "MultiVmSyncStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "crashConsistentFrequencyInMinutes": {
@@ -12095,7 +12209,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "A2ARpRecoveryPointType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "cloudServiceCreationOption": {
@@ -12111,7 +12225,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "MultiVmSyncPointOption",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -12153,7 +12267,7 @@
             "type": "string",
             "x-ms-enum": {
               "name": "ReplicationProtectedItemOperation",
-              "modelAsString": false
+              "modelAsString": true
             }
           }
         },
@@ -12168,7 +12282,7 @@
             "type": "string",
             "x-ms-enum": {
               "name": "PossibleOperationsDirections",
-              "modelAsString": false
+              "modelAsString": true
             }
           }
         },
@@ -12219,7 +12333,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "RecoveryPlanActionLocation",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -12259,7 +12373,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "RecoveryPlanGroupType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "replicationProtectedItems": {
@@ -12331,7 +12445,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "DataSyncStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "recoveryVmCreationOption": {
@@ -12343,7 +12457,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "AlternateLocationRecoveryOption",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -12383,7 +12497,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "HyperVReplicaAzureRpRecoveryPointType",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -12417,7 +12531,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "InMageV2RpRecoveryPointType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "useMultiVmSyncPoint": {
@@ -12449,7 +12563,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "RpInMageRecoveryPointType",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -12500,7 +12614,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PossibleOperationsDirections",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "providerSpecificDetails": {
@@ -12645,7 +12759,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "RecoveryPlanActionLocation",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -12728,7 +12842,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PossibleOperationsDirections",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "networkType": {
@@ -12782,7 +12896,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PossibleOperationsDirections",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "sourceSiteOperations": {
@@ -12794,7 +12908,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "SourceSiteOperations",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "providerSpecificDetails": {
@@ -14012,7 +14126,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "LicenseType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "recoveryAvailabilitySetId": {
@@ -14223,7 +14337,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "AgentVersionStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       }
@@ -14367,7 +14481,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PresenceStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "hasFibreChannelAdapter": {
@@ -14380,7 +14494,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PresenceStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "hasSharedVhd": {
@@ -14393,7 +14507,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "PresenceStatus",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -14450,6 +14564,10 @@
         "recoveryNicIpAddressType": {
           "description": "IP allocation type for recovery VM.",
           "type": "string"
+        },
+        "enableAcceleratedNetworkingOnRecovery": {
+          "description": "A value indicating whether the NIC has accerated networking enabled.",
+          "type": "boolean"
         }
       }
     },
@@ -14472,6 +14590,10 @@
         "selectionType": {
           "description": "Selection type for failover.",
           "type": "string"
+        },
+        "enableAcceleratedNetworkingOnRecovery": {
+          "description": "Whether the NIC has accerated networking enabled.",
+          "type": "boolean"
         }
       }
     },
@@ -14835,16 +14957,16 @@
       "in": "path",
       "description": "The name of the resource group where the recovery services vault is present.",
       "required": true,
-      "type": "string",
-      "x-ms-parameter-location": "client"
+      "x-ms-parameter-location": "client",
+      "type": "string"
     },
     "ResourceName": {
       "name": "resourceName",
       "in": "path",
       "description": "The name of the recovery services vault.",
       "required": true,
-      "type": "string",
-      "x-ms-parameter-location": "client"
+      "x-ms-parameter-location": "client",
+      "type": "string"
     },
     "ApiVersion": {
       "name": "api-version",
